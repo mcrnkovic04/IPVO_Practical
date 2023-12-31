@@ -5,7 +5,6 @@ import time
 import random
 
 def cleanup():
-    # This function will be called when the script exits
     conn = psycopg2.connect(
         host="postgres",
         user="postgres",
@@ -22,7 +21,7 @@ def cleanup():
 
 atexit.register(cleanup)
 conn = psycopg2.connect(
-    host="postgres",  # This assumes you have a service named "postgres" in your Docker Compose file
+    host="postgres",  
     user="postgres",
     password="password",
     database="mydatabase"
@@ -38,46 +37,36 @@ conn.commit()
 
 fake = Faker()
 
-# Populate the non-clustered table
 for _ in range(1000):
     name = fake.name()
     cursor.execute("INSERT INTO non_clustered_table (name) VALUES (%s);", (name,))
 
 conn.commit()
 
-# Simulate load parameters
 total_requests = 100
-read_percentage = 80  # Percentage of read requests
+read_percentage = 80  
 write_percentage = 100 - read_percentage
 
-# Simple in-memory cache
 cache = {}
 
-# Counters for cache hits, cache misses, and total requests
 cache_hits = 0
 cache_misses = 0
 
 start_time = time.time()
 
-# Simulate OLTP workload
 for _ in range(total_requests):
     if random.randint(1, 100) <= read_percentage:
-        # Simulate a read operation with cache
         key_to_read = fake.random_int(min=1, max=1000)
         if key_to_read in cache:
-            # Cache hit
             cache_hits += 1
             print(f"Read - Cache Hit: {key_to_read}")
         else:
-            # Cache miss, perform the database query
             cursor.execute("SELECT * FROM non_clustered_table WHERE id = %s;", (key_to_read,))
             result = cursor.fetchall()
-            # Update the cache
             cache[key_to_read] = result
             cache_misses += 1
             print(f"Read - Cache Miss: {key_to_read}")
     else:
-        # Simulate a write operation
         name_to_write = fake.name()
         cursor.execute("INSERT INTO non_clustered_table (name) VALUES (%s);", (name_to_write,))
         conn.commit()
