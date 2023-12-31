@@ -10,7 +10,8 @@ Docker: Containerization for easy setup and reproducibility.
 
 Docker Setup
 Clone the Repository:
-git clone [repository_link]
+git clone https://github.com/mcrnkovic04/IPVO_Practical.git
+
 cd [repository_directory]
 
 Build Docker Images:
