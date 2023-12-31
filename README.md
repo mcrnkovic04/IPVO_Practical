@@ -1,7 +1,6 @@
 Benchmarking System Setup and Instructions
 This repository contains code for benchmarking clustered and non-clustered database tables in the context of OLTP read and write workloads.
 
-System Components
 PostgreSQL: The chosen database system;
 Python: Used for scripting and running the benchmark;
 Faker: Utilized for generating test data;
