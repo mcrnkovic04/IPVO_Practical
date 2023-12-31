@@ -21,9 +21,8 @@ Run Docker Containers:
 
 docker-compose up -d
 
-
-Running the Benchmark
 Run Benchmarking Code:
+
 For Clustered Database:
 docker-compose exec clustered_db python clustered_benchmark.py
 
